@@ -232,7 +232,7 @@ function FMTSubChunk({channels, sampleResolution, frequency}) {
  * @returns {number[]}
  */
 function sampleArrayToData(sampleArray, sampleResolution) {
-    if (sampleResolution === 8) return sampleArray.map(x => x >> 8);
+    if (sampleResolution === 8) return sampleArray;
     if (sampleResolution !== 16) {
         alert("Only 8 or 16 bit supported.");
         return;
