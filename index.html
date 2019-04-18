@@ -215,17 +215,8 @@
         if (params) {
             var shouldPlay = false;
             if (params["rate"]) {
-                if (params["rate"] >= 44100) {
-                    document.forms[0].samplerate[0].checked = true;
-                }
-                else if (params["rate"] == 22050) {
-                    document.forms[0].samplerate[1].checked = true;
-                }
-                else if (params["rate"] == 11025) {
-                    document.forms[0].samplerate[2].checked = true;
-                }
-                else {
-                    document.forms[0].samplerate[3].checked = true;
+                for (const input of document.querySelectorAll("input[name='samplerate']")) {
+                    input.checked = input.value == params["rate"];
                 }
             }
             if (params["t0"]) {
