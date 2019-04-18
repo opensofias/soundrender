@@ -148,10 +148,6 @@
             <td class="rightaligned">"Perma"link</td>
             <td><input type="text" id="link" value="" /> (hinthint: use this as an URL)</td>
         </tr>
-        <tr>
-            <td class="rightaligned">BBcode</td>
-            <td><input type="text" id="bbcode" value="" /> (for them lazy ones)</td>
-        </tr>
     </table>
     <script src="magic.js"></script>
     <script>
@@ -164,7 +160,6 @@
             }
             //create links
             document.getElementById("link").value = makeLink();
-            document.getElementById("bbcode").value = makeBbcode();
             //try {
                 playDataURI(makeURL());
             //    document.getElementById('error').innerText = "";
@@ -203,20 +198,6 @@
             link += "&separation=" + document.getElementById('separation').value;
             link += "&rate=" + getFrequency();
             return link;
-        }
-
-        function makeBbcode() {
-            var bbcode = "[url=" + makeLink() + "]";
-            //do we have a stereo tune?
-            if (document.getElementById('oneliner2').value != "") {
-                bbcode += "[b]L:[/b] " + document.getElementById('oneliner').value;
-                bbcode += " [b]| R:[/b] " + document.getElementById('oneliner2').value;
-            }
-            else {
-                bbcode += document.getElementById('oneliner').value;
-            }
-            bbcode += "[/url]";
-            return bbcode;
         }
 
         var x = document.createElement('audio');
