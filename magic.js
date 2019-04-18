@@ -99,7 +99,7 @@ function generateSound({frequency, t0, tmod, seconds, seperation, f, f2, sampleR
             sample2 = sample2;
         }
 
-        //store left sample 
+        //store left sample
         sampleArray.push(sample & sampleMask);
         //store right sample if any
         if (channels > 1) sampleArray.push(sample2 & sampleMask);
@@ -111,73 +111,55 @@ var canvas = null;
 var ctx = null;
 var imgd = null;
 
-function generatePreview({frequency, sampleArray, channels}) {
+function generatePreview({frequency, sampleArray, channels, sampleResolution}) {
     //get canvas element
     canvas = document.getElementById('canvas');
     //get drawing context from canvas element
     ctx = canvas.getContext("2d");
 
-    if (!canvas || !canvas.getContext) {
-        alert("No canvas or context. Your browser sucks!");
+    if (!canvas.getContext) {
+        canvas.innerHTML += "No canvas support. Your browser sucks!";
         return;
     }
 
     imgd = false;
     var width = canvas.width;
     var height = canvas.height;
-    var x = 0;
-    var y = 0;
 
-    //Try to create image data from scratch
-    //If that doesn't work, try to load it from the context
-    //If that fails too, create an array of the same size and pray
-    if (ctx.createImageData) {
-        imgd = ctx.createImageData(width, height);
-        //clear image
-        ctx.fillStyle = "#FF0000FF";
-        ctx.fillRect(0, 0, width, height);
-    } else if (ctx.getImageData) {
-        imgd = ctx.getImageData(0, 0, width, height);
-        //clear image
-        ctx.fillStyle = "#FF0000FF";
-        ctx.fillRect(0, 0, width, height);
-    } else {
-        imgd = { 'width': width, 'height': height, 'data': new Array(width * height * 4) };
-    }
+    imgd = ctx.createImageData(width, height);
+    //clear image
+    ctx.fillStyle = "#FF0000FF";
+    ctx.fillRect(0, 0, width, height);
+    
     //get actual pixel data
     var pix = imgd.data;
 
-    //calculate length of sample array an how many samples per pixel
-    var nrOfSamples = sampleArray.length / channels;
-    var samplesPerPixel = nrOfSamples / (width * height);
+    const sampleResolutionToColorDepth = 2 ** (sampleResolution - 8);
 
-    //draw sample preview
     var iSample = 0;
-    const base = (channels > 1) ? height / 2 : 0;
-    const scale = (channels > 1 ? height / 2 : height) / 65535.0;
-    for (var p = 0; p < (width * height); p++) {
+    for (var pxIdx = 0; pxIdx < (width * height); pxIdx++) {
         //accumulate sample data for pixel
         var sampleValue = 0;
         var sampleValue2 = 0;
-        //for (var i = 0; i < samplesPerPixel; i++) {
-        sampleValue += sampleArray[Math.floor(iSample/* + i*/) * channels];
+
+        var sampleIdx = Math.floor(iSample) * channels;
+        
+        sampleValue = sampleArray[sampleIdx];
+        sampleValue = sampleValue / sampleResolutionToColorDepth;
+
         if (channels > 1) {
-            sampleValue2 += sampleArray[Math.floor(iSample/* + i*/) * channels + 1];
+            sampleValue2 = sampleArray[sampleIdx + 1];
+            sampleValue2 = sampleValue2 / sampleResolutionToColorDepth;
         }
-        //}
-        sampleValue = sampleValue / 256; //(samplesPerPixel * 256.0);
-        //var py = p / height; //base + sampleValue * scale;
-        var index = (width * Math.floor(p % height) + Math.floor(p / height)) * 4;
-        if (channels > 1) {
-            //write right channel
-            sampleValue2 = sampleValue2 / 256; //(samplesPerPixel * 256.0);
-        }
-        pix[index] = sampleValue;
-        pix[index + 1] = sampleValue2;
-        pix[index + 2] = 00;
-        pix[index + 3] = 0xFF;
+
+        // Byte position of out current pixel, going from top to bottom, left to right. (With 4 bytes per pixel)
+        var index = (width * Math.floor(pxIdx % height) + Math.floor(pxIdx / height)) * 4;
+        pix[index] = sampleValue;      // R
+        pix[index + 1] = sampleValue2; // G
+        pix[index + 2] = 00;           // B
+        pix[index + 3] = 0xFF;         // A
         //increase sample index
-        iSample += 256 / height; //samplesPerPixel;
+        iSample += 2 ** 8 / height;
     }
 
     //write image data to canvas
