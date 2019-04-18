@@ -11,11 +11,7 @@ const $oneliner = document.getElementById('oneliner');
 const $oneliner2 = document.getElementById('oneliner2');
 
 function makeSampleFunction(oneLiner) {
-    var sin = Math.sin;
-    var cos = Math.cos;
-    var tan = Math.tan;
-    var floor = Math.floor;
-    var ceil = Math.ceil;
+    const {sin, cos, tan, floor, ceil} = Math;
     eval("var f = function (t) { return " + oneLiner + "}");
     return f;
 }
