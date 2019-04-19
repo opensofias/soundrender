@@ -84,7 +84,7 @@
     <br /><br /><br />
     <table class="link_table">
         <tr>
-            <td class="rightaligned">"Perma"link</td>
+            <td class="rightaligned">Permalink</td>
             <td><input type="text" id="link" value="" /> (hinthint: use this as an URL)</td>
         </tr>
     </table>
@@ -98,9 +98,9 @@
                 document.getElementById("oneliner2").value = "";
             }
             //create links
-            document.getElementById("link").value = makeLink();
+            document.getElementById("link").value = makePermalink();
             //try {
-                playDataURI(makeURL());
+                playDataURI(makeDataURL());
             //    document.getElementById('error').innerText = "";
             //} catch (err) {
             //    document.getElementById('error').innerText = "" + err;
@@ -120,7 +120,7 @@
             }
         }
 
-        function makeLink() {
+        function makePermalink() {
             var link;
             var idx = document.URL.indexOf('?');
             if (idx != -1) {

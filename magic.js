@@ -244,7 +244,7 @@ function RIFFChunk(soundData) {
     return [].concat(header, fmt, data);
 }
 
-function makeURL() {
+function makeDataURL() {
     var settings = getSoundSettings();
     applySoundSettings(settings);
     var generated = generateSound(settings);
