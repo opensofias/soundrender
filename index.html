@@ -8,22 +8,19 @@
 
 <body>
     <form onsubmit="return false;">
-        <table class="centered_table">
-            <tr>
-                <td class="rightaligned">Left</td>
-                <td><input type="text" id="oneliner" value="t * ((t>>12|t>>8)&63&t>>4)" /></td>
-            </tr>
-            <tr>
-                <td class="rightaligned">Right</td>
-                <td><input type="text" id="oneliner2" value="" /></td>
-            </tr>
-        </table>
+        <section>
+            <label for="oneliner">Left</label>
+            <input type="text" id="oneliner" value="t * ((t>>12|t>>8)&63&t>>4)" />
+            <label for="oneliner2">Right</label>
+            <input type="text" id="oneliner2" value="" />
+        </section>
         <table class="centered_table">
             <tr>
                 <td class="rightaligned">t<sub>0</sub></td>
                 <td><input type="text" id="t0" value="0" /> (start value of sequence)</td>
                 <td rowspan="3">
                     <h2>sample rate</h2>
+                    <!--<input type="radio" name="samplerate" value="96000" id="sr96000" /><label for="sr96000">96,000</label><br />-->
                     <input type="radio" name="samplerate" value="64000" id="sr64000" /><label for="sr64000">64,000</label><br />
                     <input type="radio" name="samplerate" value="48000" id="sr48000" /><label for="sr48000">48,000</label><br />
                     <input type="radio" name="samplerate" value="44100" id="sr44100" /><label for="sr44100">44,100</label><br />
@@ -88,8 +85,8 @@
             <td><input type="text" id="link" value="" /> (hinthint: use this as an URL)</td>
         </tr>
     </table>
-    <script src="magic.js"></script>
-    <script src="ui.js"></script>
+    <script src="magic.js" defer></script>
+    <script src="ui.js" defer></script>
 </body>
 
 </html>
