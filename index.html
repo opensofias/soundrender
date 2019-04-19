@@ -14,45 +14,36 @@
             <label for="oneliner2">Right</label>
             <input type="text" id="oneliner2" value="" />
         </section>
-        <table class="centered_table">
-            <tr>
-                <td class="rightaligned">t<sub>0</sub></td>
-                <td><input type="text" id="t0" value="0" /> (start value of sequence)</td>
-                <td rowspan="3">
-                    <h2>sample rate</h2>
-                    <!--<input type="radio" name="samplerate" value="96000" id="sr96000" /><label for="sr96000">96,000</label><br />-->
-                    <input type="radio" name="samplerate" value="64000" id="sr64000" /><label for="sr64000">64,000</label><br />
-                    <input type="radio" name="samplerate" value="48000" id="sr48000" /><label for="sr48000">48,000</label><br />
-                    <input type="radio" name="samplerate" value="44100" id="sr44100" /><label for="sr44100">44,100</label><br />
-                    <input type="radio" name="samplerate" value="32000" id="sr32000" /><label for="sr32000">32,000</label><br />
-                    <input type="radio" name="samplerate" value="24000" id="sr24000" /><label for="sr24000">24,000</label><br />
-                    <input type="radio" name="samplerate" value="22050" id="sr22050" /><label for="sr22050">22,050</label><br />
-                    <input type="radio" name="samplerate" value="16000" id="sr16000" /><label for="sr16000">16,000</label><br />
-                    <input type="radio" name="samplerate" value="11025" id="sr11025" /><label for="sr11025">11,025</label><br />
-                    <input type="radio" name="samplerate" value="8000" id="sr8000" checked /><label for="sr8000">8,000</label><br />
-                    <!--<input type="radio" name="samplerate" value="4000" id="sr4000" /><label for="sr4000">4,000</label><br />-->
-                </td>
-            </tr>
-            <tr>
-                <td class="rightaligned">t<sub>mod</sub></td>
-                <td><input type="text" id="tmod" value="0" /> (% running t with this value, 0 to turn off)</td>
-            </tr>
-            <tr>
-                <td class="rightaligned">duration</td>
-                <td><input type="text" id="duration" value="30" />seconds</td>
-            </tr>
-            <tr>
-                <td class="rightaligned">Stereo separation</td>
-                <td><input type="range" id="separation" min="0" max="100" value="100" step="5" />%</td>
-            </tr>
-            <tr>
-                <td class="rightaligned">Sample resolution</td>
-                <td>
-                    <input type="radio" name="sampleresolution" value="8" checked />8bit<br />
-                    <input type="radio" name="sampleresolution" value="16" />16bit<br />
-                </td>
-            </tr>
-        </table>
+        <section>
+            <label for="t0">t<sub>0</sub> (start value of sequence)</label>
+            <input type="text" id="t0" value="0" />
+        <section>
+            <h2>sample rate</h2>
+            <!--<input type="radio" name="samplerate" value="96000" id="sr96000" /><label for="sr96000">96,000</label><br />-->
+            <input type="radio" name="samplerate" value="64000" id="sr64000" /><label for="sr64000">64,000</label><br />
+            <input type="radio" name="samplerate" value="48000" id="sr48000" /><label for="sr48000">48,000</label><br />
+            <input type="radio" name="samplerate" value="44100" id="sr44100" /><label for="sr44100">44,100</label><br />
+            <input type="radio" name="samplerate" value="32000" id="sr32000" /><label for="sr32000">32,000</label><br />
+            <input type="radio" name="samplerate" value="24000" id="sr24000" /><label for="sr24000">24,000</label><br />
+            <input type="radio" name="samplerate" value="22050" id="sr22050" /><label for="sr22050">22,050</label><br />
+            <input type="radio" name="samplerate" value="16000" id="sr16000" /><label for="sr16000">16,000</label><br />
+            <input type="radio" name="samplerate" value="11025" id="sr11025" /><label for="sr11025">11,025</label><br />
+            <input type="radio" name="samplerate" value="8000" id="sr8000" checked /><label for="sr8000">8,000</label><br />
+            <!--<input type="radio" name="samplerate" value="4000" id="sr4000" /><label for="sr4000">4,000</label><br />-->
+        </section>
+        <section>  
+            <label for="tmod">t<sub>mod</sub></label>
+            <input type="text" id="tmod" value="0" /> (% running t with this value, 0 to turn off)
+            <label for="duration">duration (seconds)</label>
+            <input type="text" id="duration" value="30" />
+            <label>Stereo separation</label>
+            <input type="range" id="separation" min="0" max="100" value="100" step="5" />
+        </section>
+        <section>
+            <h2>Sample resolution</h2>
+            <input type="radio" name="sampleresolution" value="8" checked />8bit<br />
+            <input type="radio" name="sampleresolution" value="16" />16bit<br />
+        </section>
         <table class="centered_table">
             <tr>
                 <td colspan="3"><input type="submit" value="Generate Sound" id="gen" /></td>
