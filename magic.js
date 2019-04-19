@@ -20,6 +20,7 @@ function getFrequency() {
     len = $form.samplerate.length;
     for (i = 0; i < len; i++) {
         if ($form.samplerate[i].checked) {
+            console.log ($form.samplerate[i].value | 0)
             return $form.samplerate[i].value | 0;
         }
     }
