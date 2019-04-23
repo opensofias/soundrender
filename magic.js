@@ -211,18 +211,18 @@ function FMTSubChunk({channels, sampleResolution, frequency}) {
  * @returns {number[]}
  */
 function sampleArrayToData(sampleArray, sampleResolution) {
-    if (sampleResolution === 8) return sampleArray;
-    if (sampleResolution !== 16) {
+    if (![8, 16].includes(sampleResolution)) {
         alert("Only 8 or 16 bit supported.");
         return;
+    } else if (sampleResolution === 8) return sampleArray;
+    else {
+        var data = [];
+        for (var i = 0; i < sampleArray.length; i++) {
+            data.push( 0x00ff & sampleArray[i]      );
+            data.push((0xff00 & sampleArray[i]) >> 8);
+        }
+        return data;
     }
-
-    var data = [];
-    for (var i = 0; i < sampleArray.length; i++) {
-        data.push( 0x00ff & sampleArray[i]      );
-        data.push((0xff00 & sampleArray[i]) >> 8);
-    }
-    return data;
 }
 
 function dataSubChunk({channels, sampleResolution, sampleArray}) {
