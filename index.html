@@ -7,16 +7,13 @@
 </head>
 
 <body>
-    <form onsubmit="return false;">
-        <section>
+    <form onsubmit="return false;" id="parameters">
+        <section id="codeInputs">
             <label for="oneliner">Left</label>
             <input type="text" id="oneliner" value="t * ((t>>12|t>>8)&63&t>>4)" />
             <label for="oneliner2">Right</label>
             <input type="text" id="oneliner2" value="" />
         </section>
-        <section>
-            <label for="t0">t<sub>0</sub> (start value of sequence)</label>
-            <input type="text" id="t0" value="0" />
         <section>
             <h2>sample rate</h2>
             <!--<input type="radio" name="samplerate" value="96000" id="sr96000" /><label for="sr96000">96,000</label><br />-->
@@ -31,53 +28,44 @@
             <input type="radio" name="samplerate" value="8000" id="sr8000" checked /><label for="sr8000">8,000</label><br />
             <!--<input type="radio" name="samplerate" value="4000" id="sr4000" /><label for="sr4000">4,000</label><br />-->
         </section>
-        <section>  
-            <label for="tmod">t<sub>mod</sub></label>
-            <input type="text" id="tmod" value="0" /> (% running t with this value, 0 to turn off)
-            <label for="duration">duration (seconds)</label>
-            <input type="text" id="duration" value="30" />
-            <label>Stereo separation</label>
-            <input type="range" id="separation" min="0" max="100" value="100" step="5" />
-        </section>
         <section>
             <h2>Sample resolution</h2>
             <input type="radio" name="sampleresolution" value="8" checked />8bit<br />
             <input type="radio" name="sampleresolution" value="16" />16bit<br />
         </section>
-        <table class="centered_table">
-            <tr>
-                <td colspan="3"><input type="submit" value="Generate Sound" id="gen" /></td>
-            </tr>
-            <tr>
-                <td colspan="3"><canvas id="canvas" width="1024" height="128"></canvas></td>
-            </tr>
-        </table>
+        <section>
+            <h2>other Parameters</h2>
+            <label for="t0">t<sub>0</sub> (start value of sequence)</label>
+            <input type="text" id="t0" value="0" />
+            <label for="tmod">t<sub>mod</sub></label>
+            <input type="text" id="tmod" value="0" /> (running t with this value, 0 to turn off)
+            <label for="duration">duration (seconds)</label>
+            <input type="text" id="duration" value="30" />
+            <label>Stereo separation (%)</label>
+            <input type="range" id="separation" min="0" max="100" value="100" step="5" />
+        </section>
+        <section>
+            <input type="submit" value="Generate Sound" id="gen" />
+            <canvas id="canvas" width="1024" height="128"></canvas>
+        </section>
     </form>
     <span id="error"></span>
     <div id="player"></div>
     <br />
-    <table class="link_table">
-        <tr>
-            <td>
-                For example: (t*(t>>8+t>>9)*100)+sin(t)<br />
-                Or try some from <a href="http://www.youtube.com/watch?v=GtQdIYUtAHg" target="_new">viznut's video</a>
-                or <a href="http://www.youtube.com/watch?v=qlrs2Vorw2Y" target="_new">viznut's other
-                    video</a>.<br /><br />
-                PLEASE NOTE THAT IS MOSTLY NOT MY CREATION. I just added some stuff. <a
-                    href="http://www.bemmu.com/music/index.html" target="_new">The original</a> is from Bemmu &amp;
-                viznut. Some improvements came from mjau. Thanks!
-            </td>
-        </tr>
-    </table>
-    <br /><br /><br />
-    <table class="link_table">
-        <tr>
-            <td class="rightaligned">Permalink</td>
-            <td><input type="text" id="link" value="" /> (hinthint: use this as an URL)</td>
-        </tr>
-    </table>
-    <script src="magic.js" defer></script>
-    <script src="ui.js" defer></script>
+    <section>   
+        For example: (t*(t>>8+t>>9)*100)+sin(t)<br />
+        Or try some from <a href="http://www.youtube.com/watch?v=GtQdIYUtAHg" target="_new">viznut's video</a>
+        or <a href="http://www.youtube.com/watch?v=qlrs2Vorw2Y" target="_new">viznut's other
+            video</a>.<br /><br />
+        PLEASE NOTE THAT IS MOSTLY NOT MY CREATION. I just added some stuff. <a
+            href="http://www.bemmu.com/music/index.html" target="_new">The original</a> is from Bemmu &amp;
+        viznut. Some improvements came from mjau. Thanks!
+    </section>
+    <section>
+        <label for="link">Permalink (use this as an URL)</label>
+        <input type="text" id="link" value="" /></td>
+    </section>
+    <script src="magic.js" defer></script><script src="ui.js" defer></script>
 </body>
 
 </html>

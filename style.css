@@ -1,8 +1,17 @@
+#parameters {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#codeInputs {
+	width: 100%;
+}
+
 #oneliner,
 #oneliner2 {
 	font-size: 22px;
 	padding: 5px;
-	width: 100%;
+	width: calc(100% - 10px);
 	font-family: monospace;
 	color: #99ff99;
 	background: black;
