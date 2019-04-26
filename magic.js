@@ -7,7 +7,7 @@ const $form = document.forms[0];
 
 // ui object contains input elements
 const ui =
-    't0, tmod, duration, separation, oneliner, oneliner2'
+    't0, tmod, seconds, separation, oneliner, oneliner2'
     .split(', ').reduce ((acc, cur) => (
             acc [cur] = document.getElementById(cur), acc
         ), {}
@@ -37,7 +37,7 @@ function getSoundSettings () {
         sampleRate: getCheckedOption ('sampleRate'),
         t0: (ui.t0.value < 0) ? 0 : ui.t0.value,
         tmod: (ui.tmod.value < 0) ? 0 : ui.tmod.value,
-        seconds: (ui.duration.value < 1) ? 1 : ui.duration.value,
+        seconds: (ui.seconds.value < 1) ? 1 : ui.seconds.value,
         separation: 1 - clamp(ui.separation.value, 0, 100) / 100,
         f: makeSampleFunction(ui.oneliner.value),
         f2: ui.oneliner2.value ? makeSampleFunction(ui.oneliner2.value) : null,
@@ -48,7 +48,7 @@ function getSoundSettings () {
 function applySoundSettings ({sampleRate, t0, tmod, seconds, separation, f, f2}) {
     ui.t0.value = t0;
     ui.tmod.value = tmod;
-    ui.duration.value = seconds;
+    ui.seconds.value = seconds;
     ui.separation.value = separation;
 }
 
@@ -248,8 +248,8 @@ function onTimeUpdate() {
             index += canvas.width * 4;
         }
         var time = el.currentTime;
-        var duration = el.duration;
-        var pos = Math.floor(canvas.width * time / duration);
+        var seconds = el.seconds;
+        var pos = Math.floor(canvas.width * time / seconds);
         index = pos * 4;
         for (var p = 0; p < canvas.height; p++) {
             pix[index] = pix[index] ^ 0xFF;
