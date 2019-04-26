@@ -19,24 +19,13 @@ function makeSampleFunction(oneLiner) {
     return f;
 }
 
-function getFrequency() {
-    len = $form.samplerate.length;
+const getCheckedOption = (optionGroup) => {
+    const len = $form[optionGroup].length;
     for (i = 0; i < len; i++) {
-        if ($form.samplerate[i].checked) {
-            return $form.samplerate[i].value | 0;
+        if ($form[optionGroup][i].checked) {
+            return $form[optionGroup][i].value | 0;
         }
     }
-    return 8000;
-}
-
-function getSampleResolution() {
-    len = $form.sampleresolution.length;
-    for (i = 0; i < len; i++) {
-        if ($form.sampleresolution[i].checked) {
-            return $form.sampleresolution[i].value | 0;
-        }
-    }
-    return 8;
 }
 
 //before, not working: (sample + sample2 * separation) / (1 + separation) <- WTF this is exacly whats happening;
@@ -52,14 +41,14 @@ function clamp(val, min, max) {
 
 function getSoundSettings () {
     return {
-        frequency: getFrequency(),
+        frequency: getCheckedOption ('samplerate'),
         t0: (ui.t0.value < 0) ? 0 : ui.t0.value,
         tmod: (ui.tmod.value < 0) ? 0 : ui.tmod.value,
         seconds: (ui.duration.value < 1) ? 1 : ui.duration.value,
         separation: 1 - clamp(ui.separation.value, 0, 100) / 100,
         f: makeSampleFunction(ui.oneliner.value),
         f2: ui.oneliner2.value ? makeSampleFunction(ui.oneliner2.value) : null,
-        sampleResolution: getSampleResolution(),
+        sampleResolution: getCheckedOption ('sampleresolution'),
     }
 }
 

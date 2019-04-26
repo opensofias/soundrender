@@ -43,7 +43,7 @@ function makePermalink() {
 	link += "&tmod=" + document.getElementById('tmod').value;
 	link += "&duration=" + document.getElementById('duration').value;
 	link += "&separation=" + document.getElementById('separation').value;
-	link += "&rate=" + getFrequency();
+	link += "&rate=" + getCheckedOption ('samplerate'); //TODO: sample resolution value
 	return link;
 }
 
