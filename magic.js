@@ -20,12 +20,8 @@ function makeSampleFunction(oneLiner) {
 }
 
 const getCheckedOption = (optionGroup) => {
-    const len = $form[optionGroup].length;
-    for (i = 0; i < len; i++) {
-        if ($form[optionGroup][i].checked) {
-            return $form[optionGroup][i].value | 0;
-        }
-    }
+    for (option of $form[optionGroup])
+        if (option.checked) return option.value | 0 
 }
 
 //before, not working: (sample + sample2 * separation) / (1 + separation) <- WTF this is exacly whats happening;
