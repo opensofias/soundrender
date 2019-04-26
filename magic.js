@@ -39,10 +39,10 @@ function getSampleResolution() {
     return 8;
 }
 
-//before, not working: (sample + sample2 * separation) / (1.0 + separation) <- WTF this is exacly whats happening;
+//before, not working: (sample + sample2 * separation) / (1 + separation) <- WTF this is exacly whats happening;
 //better, not working: mixed = a + b â€“ a*b / max
 function mixAB(a, b, t) { 
-    return (a + b * t) / (1.0 + t);
+    return (a + b * t) / (1 + t);
 }
 
 function clamp(val, min, max) {
@@ -55,8 +55,8 @@ function getSoundSettings () {
         frequency: getFrequency(),
         t0: (ui.t0.value < 0) ? 0 : ui.t0.value,
         tmod: (ui.tmod.value < 0) ? 0 : ui.tmod.value,
-        seconds: (ui.duration.value < 1.0) ? 1.0 : ui.duration.value,
-        separation: 1.0 - clamp(ui.separation.value, 0, 100) / 100,
+        seconds: (ui.duration.value < 1) ? 1 : ui.duration.value,
+        separation: 1 - clamp(ui.separation.value, 0, 100) / 100,
         f: makeSampleFunction(ui.oneliner.value),
         f2: ui.oneliner2.value ? makeSampleFunction(ui.oneliner2.value) : null,
         sampleResolution: getSampleResolution(),
