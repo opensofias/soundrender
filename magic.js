@@ -24,6 +24,15 @@ const getCheckedOption = (optionGroup) => {
         if (option.checked) return option.value | 0 
 }
 
+const getUiNumbers = (settingsList) =>
+    settingsList.reduce ((acc, setting) => (
+        acc[setting] = ui[setting].value < 0 ?
+            0 :
+            ui[setting].value,
+        acc)
+    ,{})
+
+
 const mixAB = (a, b, t) =>
     (a + b * t) / (1 + t)
 
@@ -35,13 +44,11 @@ const clamp = (val, min, max) =>
 function getSoundSettings () {
     return {
         sampleRate: getCheckedOption ('sampleRate'),
-        t0: (ui.t0.value < 0) ? 0 : ui.t0.value,
-        tmod: (ui.tmod.value < 0) ? 0 : ui.tmod.value,
-        seconds: (ui.seconds.value < 1) ? 1 : ui.seconds.value,
-        separation: 1 - clamp(ui.separation.value, 0, 100) / 100,
+        sampleResolution: getCheckedOption ('sampleResolution'),
+        ...getUiNumbers('t0, tmod, seconds'.split(', ')),
+        separation: 1 - clamp(ui.separation.value, 0, 100) / 100, // wtf
         f: makeSampleFunction(ui.oneliner.value),
         f2: ui.oneliner2.value ? makeSampleFunction(ui.oneliner2.value) : null,
-        sampleResolution: getCheckedOption ('sampleResolution'),
     }
 }
 
