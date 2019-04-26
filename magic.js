@@ -24,16 +24,13 @@ const getCheckedOption = (optionGroup) => {
         if (option.checked) return option.value | 0 
 }
 
-//before, not working: (sample + sample2 * separation) / (1 + separation) <- WTF this is exacly whats happening;
-//better, not working: mixed = a + b â€“ a*b / max
-function mixAB(a, b, t) { 
-    return (a + b * t) / (1 + t);
-}
+const mixAB = (a, b, t) =>
+    (a + b * t) / (1 + t)
 
-function clamp(val, min, max) {
-    val = Number(val) || min;
-    return Math.max(min, Math.min(max, val));
-}
+const clamp = (val, min, max) =>
+    Math.max(min, Math.min(max,
+        Number(val) || min)
+    )
 
 function getSoundSettings () {
     return {
