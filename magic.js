@@ -1,14 +1,17 @@
 // Code in ~2 hours by Bemmu, idea and sound code snippet from Viznut.
 // 2011-09-30 - Modifications by raer.
 // 2011-10-07 - Modifications by raer.
+// 2019-04 - modernisation by edave64 and opensofias
 
 const $form = document.forms[0];
-const $t0 = document.getElementById('t0');
-const $tmod = document.getElementById('tmod');
-const $duration = document.getElementById('duration');
-const $seperation = document.getElementById('separation');
-const $oneliner = document.getElementById('oneliner');
-const $oneliner2 = document.getElementById('oneliner2');
+
+// ui object contains input elements
+const ui =
+    't0, tmod, duration, separation, oneliner, oneliner2'
+    .split(', ').reduce ((acc, cur) => (
+            acc [cur] = document.getElementById(cur), acc
+        ), {}
+    )
 
 function makeSampleFunction(oneLiner) {
     const {sin, cos, tan, floor, ceil} = Math;
@@ -20,7 +23,6 @@ function getFrequency() {
     len = $form.samplerate.length;
     for (i = 0; i < len; i++) {
         if ($form.samplerate[i].checked) {
-            console.log ($form.samplerate[i].value | 0)
             return $form.samplerate[i].value | 0;
         }
     }
@@ -51,24 +53,24 @@ function clamp(val, min, max) {
 function getSoundSettings () {
     return {
         frequency: getFrequency(),
-        t0: ($t0.value < 0) ? 0 : $t0.value,
-        tmod: ($tmod.value < 0) ? 0 : $tmod.value,
-        seconds: ($duration.value < 1.0) ? 1.0 : $duration.value,
-        seperation: 1.0 - clamp($seperation.value, 0, 100) / 100,
-        f: makeSampleFunction($oneliner.value),
-        f2: $oneliner2.value ? makeSampleFunction($oneliner2.value) : null,
+        t0: (ui.t0.value < 0) ? 0 : ui.t0.value,
+        tmod: (ui.tmod.value < 0) ? 0 : ui.tmod.value,
+        seconds: (ui.duration.value < 1.0) ? 1.0 : ui.duration.value,
+        separation: 1.0 - clamp(ui.separation.value, 0, 100) / 100,
+        f: makeSampleFunction(ui.oneliner.value),
+        f2: ui.oneliner2.value ? makeSampleFunction(ui.oneliner2.value) : null,
         sampleResolution: getSampleResolution(),
     }
 }
 
-function applySoundSettings ({frequency, t0, tmod, seconds, seperation, f, f2}) {
-    $t0.value = t0;
-    $tmod.value = tmod;
-    $duration.value = seconds;
-    $seperation.value = seperation;
+function applySoundSettings ({frequency, t0, tmod, seconds, separation, f, f2}) {
+    ui.t0.value = t0;
+    ui.tmod.value = tmod;
+    ui.duration.value = seconds;
+    ui.separation.value = separation;
 }
 
-function generateSound({frequency, t0, tmod, seconds, seperation, f, f2, sampleResolution}) {
+function generateSound({frequency, t0, tmod, seconds, separation, f, f2, sampleResolution}) {
     var sampleArray = [];
     var channels = f2 ? 2 : 1;
     var sampleMask = sampleResolution == 8 ? 0xff : 0xffff;
@@ -180,20 +182,17 @@ function toHexString(values) {
 }
 
 // Character to ASCII value, or string to array of ASCII values.
-function toCharCodes(str) {
-    return [...str].map((c) => c.charCodeAt(0));
-}
+const toCharCodes = (str) => [...str].map((c) => c.charCodeAt(0));
 
 function split32bitValueToBytes(l) {
     return [l & 0xff, (l & 0xff00) >> 8, (l & 0xff0000) >> 16, (l & 0xff000000) >> 24];
 }
 
-
 function FMTSubChunk({channels, sampleResolution, frequency}) {
     var byteRate = frequency * channels * sampleResolution / 8;
     var blockAlign = channels * sampleResolution / 8;
     return [].concat(
-        toCharCodes("fmt "),
+        toCharCodes("fmt "), 
         split32bitValueToBytes(16), // Subchunk1Size for PCM
         [1, 0], // PCM is 1, split to 16 bit
         [channels, 0],
@@ -210,7 +209,7 @@ function FMTSubChunk({channels, sampleResolution, frequency}) {
  * @param {number} sampleResolution 
  * @returns {number[]}
  */
-function sampleArrayToData(sampleArray, sampleResolution) {
+function sampleArrayToData(sampleArray, sampleResolution) {    
     if (![8, 16].includes(sampleResolution)) {
         alert("Only 8 or 16 bit supported.");
         return;
@@ -246,7 +245,6 @@ function RIFFChunk(soundData) {
 
 function makeDataURL() {
     var settings = getSoundSettings();
-    console.log (settings);
     applySoundSettings(settings);
     var generated = generateSound(settings);
     generatePreview(generated);
