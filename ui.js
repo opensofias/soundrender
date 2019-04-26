@@ -41,7 +41,7 @@ function makePermalink() {
 	link += "&oneliner2=" + encodeURIComponent(document.getElementById('oneliner2').value);
 	link += "&t0=" + document.getElementById('t0').value;
 	link += "&tmod=" + document.getElementById('tmod').value;
-	link += "&duration=" + document.getElementById('duration').value;
+	link += "&seconds=" + document.getElementById('seconds').value;
 	link += "&separation=" + document.getElementById('separation').value;
 	link += "&rate=" + getCheckedOption ('sampleRate'); //TODO: sample resolution value
 	return link;
@@ -72,8 +72,8 @@ if (params) {
 	if (params["tmod"]) {
 		document.getElementById("tmod").value = params["tmod"];
 	}
-	if (params["duration"]) {
-		document.getElementById("duration").value = params["duration"];
+	if (params["seconds"]) {
+		document.getElementById("seconds").value = params["seconds"];
 	}
 	if (params["separation"]) {
 		document.getElementById("separation").value = params["separation"];
