@@ -43,7 +43,7 @@ function makePermalink() {
 	link += "&tmod=" + document.getElementById('tmod').value;
 	link += "&duration=" + document.getElementById('duration').value;
 	link += "&separation=" + document.getElementById('separation').value;
-	link += "&rate=" + getCheckedOption ('samplerate'); //TODO: sample resolution value
+	link += "&rate=" + getCheckedOption ('sampleRate'); //TODO: sample resolution value
 	return link;
 }
 
@@ -62,7 +62,7 @@ params = getParams();
 if (params) {
 	var shouldPlay = false;
 	if (params["rate"]) {
-		for (const input of document.querySelectorAll("input[name='samplerate']")) {
+		for (const input of document.querySelectorAll("input[name='sampleRate']")) {
 			input.checked = input.value == params["rate"];
 		}
 	}

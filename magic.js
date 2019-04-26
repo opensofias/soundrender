@@ -34,30 +34,30 @@ const clamp = (val, min, max) =>
 
 function getSoundSettings () {
     return {
-        frequency: getCheckedOption ('samplerate'),
+        sampleRate: getCheckedOption ('sampleRate'),
         t0: (ui.t0.value < 0) ? 0 : ui.t0.value,
         tmod: (ui.tmod.value < 0) ? 0 : ui.tmod.value,
         seconds: (ui.duration.value < 1) ? 1 : ui.duration.value,
         separation: 1 - clamp(ui.separation.value, 0, 100) / 100,
         f: makeSampleFunction(ui.oneliner.value),
         f2: ui.oneliner2.value ? makeSampleFunction(ui.oneliner2.value) : null,
-        sampleResolution: getCheckedOption ('sampleresolution'),
+        sampleResolution: getCheckedOption ('sampleResolution'),
     }
 }
 
-function applySoundSettings ({frequency, t0, tmod, seconds, separation, f, f2}) {
+function applySoundSettings ({sampleRate, t0, tmod, seconds, separation, f, f2}) {
     ui.t0.value = t0;
     ui.tmod.value = tmod;
     ui.duration.value = seconds;
     ui.separation.value = separation;
 }
 
-function generateSound({frequency, t0, tmod, seconds, separation, f, f2, sampleResolution}) {
+function generateSound({sampleRate, t0, tmod, seconds, separation, f, f2, sampleResolution}) {
     var sampleArray = [];
     var channels = f2 ? 2 : 1;
     var sampleMask = sampleResolution == 8 ? 0xff : 0xffff;
 
-    for (var t = t0; t < frequency * seconds; t++) {
+    for (var t = t0; t < sampleRate * seconds; t++) {
         //mod t with user-set value if any
         var cT;
         if (tmod > 0) {
@@ -89,14 +89,14 @@ function generateSound({frequency, t0, tmod, seconds, separation, f, f2, sampleR
         //store right sample if any
         if (channels > 1) sampleArray.push(sample2 & sampleMask);
     }
-    return {frequency, sampleArray, channels, sampleResolution};
+    return {sampleRate, sampleArray, channels, sampleResolution};
 }
 
 var canvas = null;
 var ctx = null;
 var imgd = null;
 
-function generatePreview({frequency, sampleArray, channels, sampleResolution}) {
+function generatePreview({sampleRate, sampleArray, channels, sampleResolution}) {
     //get canvas element
     canvas = document.getElementById('canvas');
     //get drawing context from canvas element
@@ -170,15 +170,15 @@ function split32bitValueToBytes(l) {
     return [l & 0xff, (l & 0xff00) >> 8, (l & 0xff0000) >> 16, (l & 0xff000000) >> 24];
 }
 
-function FMTSubChunk({channels, sampleResolution, frequency}) {
-    var byteRate = frequency * channels * sampleResolution / 8;
+function FMTSubChunk({channels, sampleResolution, sampleRate}) {
+    var byteRate = sampleRate * channels * sampleResolution / 8;
     var blockAlign = channels * sampleResolution / 8;
     return [].concat(
         toCharCodes("fmt "), 
         split32bitValueToBytes(16), // Subchunk1Size for PCM
         [1, 0], // PCM is 1, split to 16 bit
         [channels, 0],
-        split32bitValueToBytes(frequency),
+        split32bitValueToBytes(sampleRate),
         split32bitValueToBytes(byteRate),
         [blockAlign, 0],
         [sampleResolution, 0]
